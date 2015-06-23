@@ -9,7 +9,6 @@ import java.security.PrivateKey;
 import xdi2.client.exceptions.Xdi2ClientException;
 import xdi2.client.util.XDIClientUtil;
 import xdi2.core.ContextNode;
-import xdi2.core.Literal;
 import xdi2.core.features.signatures.KeyPairSignature;
 import xdi2.core.syntax.CloudName;
 import xdi2.core.syntax.CloudNumber;
@@ -21,7 +20,7 @@ import xdi2.messaging.MessageEnvelope;
 
 public class ConnectionRequest {
 
-	private static final XDIAddress XDI_ADD_RETURN_URI = XDIAddress.create("<#return><$uri>&");
+	private static final XDIAddress XDI_ADD_RETURN_URI = XDIAddress.create("<#return><$uri>");
 
 	private MessageEnvelope messageEnvelope;
 
@@ -81,10 +80,7 @@ public class ConnectionRequest {
 		ContextNode contextNode = message.getContextNode().getDeepContextNode(XDI_ADD_RETURN_URI);
 		if (contextNode == null) return null;
 
-		Literal literal = contextNode.getLiteral();
-		if (literal == null) return null;
-
-		String literalDataString = literal.getLiteralDataString();
+		String literalDataString = contextNode.getLiteralDataString();
 		if (literalDataString == null) return null;
 
 		return new URI(literalDataString);
@@ -95,7 +91,7 @@ public class ConnectionRequest {
 		for (Message message : this.getMessageEnvelope().getMessages()) {
 
 			ContextNode contextNode = message.getContextNode().setDeepContextNode(XDI_ADD_RETURN_URI);
-			contextNode.setLiteral(returnUri.toString());
+			contextNode.setLiteralString(returnUri.toString());
 		}
 	}
 
