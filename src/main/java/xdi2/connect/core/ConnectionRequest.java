@@ -99,7 +99,7 @@ public class ConnectionRequest {
 
 		// obtain private key
 
-		XDIDiscoveryResult xdiDiscoveryResult = XDIDiscoveryClient.NEUSTAR_PROD_DISCOVERY_CLIENT.discoverFromRegistry(cloudName.getXDIAddress(), null);
+		XDIDiscoveryResult xdiDiscoveryResult = XDIDiscoveryClient.DEFAULT_DISCOVERY_CLIENT.discoverFromRegistry(cloudName.getXDIAddress(), null);
 		if (xdiDiscoveryResult == null || xdiDiscoveryResult.getCloudNumber() == null || xdiDiscoveryResult.getXdiEndpointUrl() == null) throw new Xdi2ClientException("Discovery failed on " + cloudName);
 
 		CloudNumber cloudNumber = xdiDiscoveryResult.getCloudNumber();
