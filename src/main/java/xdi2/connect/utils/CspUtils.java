@@ -3,7 +3,7 @@ package xdi2.connect.utils;
 
 public class CspUtils {
 	
-	public static String getCspLogoFromEndpointUrl(String cloudEndpoint) {
+	public static String getCspLogoFromEndpointUri(String cloudEndpoint) {
 			
 		
 		if (cloudEndpoint.contains("danubeclouds.com"))

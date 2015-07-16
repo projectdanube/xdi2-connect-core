@@ -2,7 +2,6 @@ package xdi2.connect.core;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 
@@ -83,7 +82,7 @@ public class ConnectionRequest {
 		String literalDataString = contextNode.getLiteralDataString();
 		if (literalDataString == null) return null;
 
-		return new URI(literalDataString);
+		return URI.create(literalDataString);
 	}
 
 	public void setReturnUri(URI returnUri) throws URISyntaxException {
@@ -99,13 +98,13 @@ public class ConnectionRequest {
 
 		// obtain private key
 
-		XDIDiscoveryResult xdiDiscoveryResult = XDIDiscoveryClient.DEFAULT_DISCOVERY_CLIENT.discoverFromRegistry(cloudName.getXDIAddress(), null);
-		if (xdiDiscoveryResult == null || xdiDiscoveryResult.getCloudNumber() == null || xdiDiscoveryResult.getXdiEndpointUrl() == null) throw new Xdi2ClientException("Discovery failed on " + cloudName);
+		XDIDiscoveryResult xdiDiscoveryResult = XDIDiscoveryClient.DEFAULT_DISCOVERY_CLIENT.discoverFromRegistry(cloudName.getXDIAddress());
+		if (xdiDiscoveryResult == null || xdiDiscoveryResult.getCloudNumber() == null || xdiDiscoveryResult.getXdiEndpointUri() == null) throw new Xdi2ClientException("Discovery failed on " + cloudName);
 
 		CloudNumber cloudNumber = xdiDiscoveryResult.getCloudNumber();
-		URL xdiEndpointUrl = xdiDiscoveryResult.getXdiEndpointUrl();
+		URI xdiEndpointUri = xdiDiscoveryResult.getXdiEndpointUri();
 
-		PrivateKey privateKey = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUrl, secretToken);
+		PrivateKey privateKey = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUri, secretToken);
 
 		// sign messages
 

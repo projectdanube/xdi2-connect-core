@@ -7,17 +7,17 @@ import xdi2.core.features.linkcontracts.instance.LinkContract;
 import xdi2.core.syntax.CloudNumber;
 import xdi2.core.syntax.XDIAddress;
 import xdi2.core.util.GraphUtil;
-import xdi2.messaging.MessageResult;
+import xdi2.messaging.response.MessagingResponse;
 
 public class ConnectionResult {
 
-	private MessageResult messageResult;
+	private MessagingResponse messagingResponse;
 
-	private ConnectionResult(MessageResult messageResult) {
+	private ConnectionResult(MessagingResponse messagingResponse) {
 
-		if (messageResult == null) throw new NullPointerException();
+		if (messagingResponse == null) throw new NullPointerException();
 
-		this.messageResult = messageResult;
+		this.messagingResponse = messagingResponse;
 	}
 
 	/*
@@ -25,43 +25,43 @@ public class ConnectionResult {
 	 */
 
 	/**
-	 * Checks if a message result is a valid Connect result.
-	 * @param messageResult The message result to check.
-	 * @return True if the message result is a valid Connect result.
+	 * Checks if a messaging response is a valid Connect result.
+	 * @param messagingResponse The messaging response to check.
+	 * @return True if the messaging response is a valid Connect result.
 	 */
-	public static boolean isValid(MessageResult messageResult) {
+	public static boolean isValid(MessagingResponse messagingResponse) {
 
-		if (messageResult == null) throw new NullPointerException();
+		if (messagingResponse == null) throw new NullPointerException();
 
 		return true;
 	}
 
 	/**
-	 * Factory method that creates a Connect result bound to a given message result.
-	 * @param messageResult The message result that is a Connect result.
+	 * Factory method that creates a Connect result bound to a given messaging response.
+	 * @param messagingResponse The messaging response that is a Connect result.
 	 * @return The Connect result.
 	 */
-	public static ConnectionResult fromContextNode(MessageResult messageResult) {
+	public static ConnectionResult fromContextNode(MessagingResponse messagingResponse) {
 
-		if (messageResult == null) throw new NullPointerException();
+		if (messagingResponse == null) throw new NullPointerException();
 
-		if (! isValid(messageResult)) return null;
+		if (! isValid(messagingResponse)) return null;
 
-		return new ConnectionResult(messageResult);
+		return new ConnectionResult(messagingResponse);
 	}
 
 	/*
 	 * Instance methods
 	 */
 
-	public MessageResult getMessageResult() {
+	public MessagingResponse getMessagingResponse() {
 
-		return this.messageResult;
+		return this.messagingResponse;
 	}
 
 	public CloudNumber getCloudNumber() {
 
-		XDIAddress ownerXDIAddress = GraphUtil.getOwnerXDIAddress(this.getMessageResult().getGraph());
+		XDIAddress ownerXDIAddress = GraphUtil.getOwnerXDIAddress(this.getMessagingResponse().getResultGraph());
 		if (ownerXDIAddress == null) return null;
 
 		return CloudNumber.fromXDIAddress(ownerXDIAddress);
@@ -69,6 +69,6 @@ public class ConnectionResult {
 
 	public Iterator<LinkContract> getLinkContracts() {
 
-		return LinkContracts.getAllLinkContracts(this.getMessageResult().getGraph());
+		return LinkContracts.getAllLinkContracts(this.getMessagingResponse().getResultGraph());
 	}
 }
