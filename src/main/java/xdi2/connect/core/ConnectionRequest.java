@@ -98,7 +98,7 @@ public class ConnectionRequest {
 
 		// obtain private key
 
-		XDIDiscoveryResult xdiDiscoveryResult = XDIDiscoveryClient.DEFAULT_DISCOVERY_CLIENT.discoverFromRegistry(cloudName.getXDIAddress());
+		XDIDiscoveryResult xdiDiscoveryResult = XDIDiscoveryClient.XDI2_DISCOVERY_CLIENT.discoverFromRegistry(cloudName.getXDIAddress());
 		if (xdiDiscoveryResult == null || xdiDiscoveryResult.getCloudNumber() == null || xdiDiscoveryResult.getXdiEndpointUri() == null) throw new Xdi2ClientException("Discovery failed on " + cloudName);
 
 		CloudNumber cloudNumber = xdiDiscoveryResult.getCloudNumber();
