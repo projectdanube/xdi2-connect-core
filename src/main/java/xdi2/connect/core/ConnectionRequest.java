@@ -8,7 +8,8 @@ import java.security.PrivateKey;
 import xdi2.client.exceptions.Xdi2ClientException;
 import xdi2.client.util.XDIClientUtil;
 import xdi2.core.ContextNode;
-import xdi2.core.features.signatures.KeyPairSignature;
+import xdi2.core.features.signatures.RSASignature;
+import xdi2.core.security.sign.RSAStaticPrivateKeySignatureCreator;
 import xdi2.core.syntax.CloudName;
 import xdi2.core.syntax.CloudNumber;
 import xdi2.core.syntax.XDIAddress;
@@ -110,8 +111,8 @@ public class ConnectionRequest {
 
 		for (Message message : this.getMessageEnvelope().getMessages()) {
 
-			KeyPairSignature signature = (KeyPairSignature) message.createSignature(KeyPairSignature.DIGEST_ALGORITHM_SHA, 256, KeyPairSignature.KEY_ALGORITHM_RSA, 2048, true);
-			signature.sign(privateKey);
+			RSASignature signature = (RSASignature) message.createSignature(RSASignature.DIGEST_ALGORITHM_SHA, 256, RSASignature.KEY_ALGORITHM_RSA, 2048, true);
+			new RSAStaticPrivateKeySignatureCreator(privateKey).createSignature(signature);
 		}
 	}
 }
