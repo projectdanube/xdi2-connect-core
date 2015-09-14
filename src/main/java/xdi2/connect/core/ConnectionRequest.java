@@ -7,7 +7,6 @@ import java.security.PrivateKey;
 
 import xdi2.client.exceptions.Xdi2ClientException;
 import xdi2.client.util.XDIClientUtil;
-import xdi2.core.ContextNode;
 import xdi2.core.features.signatures.RSASignature;
 import xdi2.core.security.signature.create.RSAStaticPrivateKeySignatureCreator;
 import xdi2.core.syntax.CloudName;
@@ -77,21 +76,17 @@ public class ConnectionRequest {
 		Message message = this.getMessageEnvelope().getMessages().next();
 		if (message == null) return null;
 
-		ContextNode contextNode = message.getContextNode().getDeepContextNode(XDI_ADD_RETURN_URI);
-		if (contextNode == null) return null;
+		String returnUri = message.getParameterString(XDI_ADD_RETURN_URI);
+		if (returnUri == null) return null;
 
-		String literalDataString = contextNode.getLiteralDataString();
-		if (literalDataString == null) return null;
-
-		return URI.create(literalDataString);
+		return URI.create(returnUri);
 	}
 
 	public void setReturnUri(URI returnUri) throws URISyntaxException {
 
 		for (Message message : this.getMessageEnvelope().getMessages()) {
 
-			ContextNode contextNode = message.getContextNode().setDeepContextNode(XDI_ADD_RETURN_URI);
-			contextNode.setLiteralString(returnUri.toString());
+			message.setParameter(XDI_ADD_RETURN_URI, returnUri.toString());
 		}
 	}
 
