@@ -90,7 +90,7 @@ public class ConnectionRequest {
 		}
 	}
 
-	public void sign(CloudName cloudName, String secretToken) throws Xdi2ClientException, GeneralSecurityException {
+	public void sign(CloudName cloudName, String secret) throws Xdi2ClientException, GeneralSecurityException {
 
 		// obtain private key
 
@@ -100,7 +100,7 @@ public class ConnectionRequest {
 		CloudNumber cloudNumber = xdiDiscoveryResult.getCloudNumber();
 		URI xdiEndpointUri = xdiDiscoveryResult.getXdiEndpointUri();
 
-		PrivateKey privateKey = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUri, secretToken);
+		PrivateKey privateKey = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUri, secret);
 
 		// sign messages
 
