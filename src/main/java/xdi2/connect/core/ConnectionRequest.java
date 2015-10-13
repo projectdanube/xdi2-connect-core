@@ -20,6 +20,7 @@ import xdi2.messaging.MessageEnvelope;
 public class ConnectionRequest {
 
 	private static final XDIAddress XDI_ADD_RETURN_URI = XDIAddress.create("<#return><$uri>");
+	private static final XDIAddress XDI_ADD_SHORT = XDIAddress.create("<#short>");
 
 	private MessageEnvelope messageEnvelope;
 
@@ -87,6 +88,27 @@ public class ConnectionRequest {
 		for (Message message : this.getMessageEnvelope().getMessages()) {
 
 			message.setParameter(XDI_ADD_RETURN_URI, returnUri.toString());
+		}
+	}
+
+	public Boolean getShort() throws URISyntaxException {
+
+		if (! this.getMessageEnvelope().getMessages().hasNext()) return null;
+
+		Message message = this.getMessageEnvelope().getMessages().next();
+		if (message == null) return null;
+
+		Boolean zhort = message.getParameterBoolean(XDI_ADD_SHORT);
+		if (zhort == null) return null;
+
+		return zhort;
+	}
+
+	public void setShort(Boolean zhort) throws URISyntaxException {
+
+		for (Message message : this.getMessageEnvelope().getMessages()) {
+
+			message.setParameter(XDI_ADD_SHORT, zhort);
 		}
 	}
 
