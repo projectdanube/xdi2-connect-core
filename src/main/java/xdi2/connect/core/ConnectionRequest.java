@@ -16,10 +16,10 @@ import xdi2.discovery.XDIDiscoveryClient;
 import xdi2.discovery.XDIDiscoveryResult;
 import xdi2.messaging.Message;
 import xdi2.messaging.MessageEnvelope;
+import xdi2.messaging.constants.XDIMessagingConstants;
 
 public class ConnectionRequest {
 
-	private static final XDIAddress XDI_ADD_RETURN_URI = XDIAddress.create("<#return><$uri>");
 	private static final XDIAddress XDI_ADD_SHORT = XDIAddress.create("<#short>");
 
 	private MessageEnvelope messageEnvelope;
@@ -77,7 +77,7 @@ public class ConnectionRequest {
 		Message message = this.getMessageEnvelope().getMessages().next();
 		if (message == null) return null;
 
-		String returnUri = message.getParameterString(XDI_ADD_RETURN_URI);
+		String returnUri = message.getParameterString(XDIMessagingConstants.XDI_ADD_MESSAGE_PARAMETER_RETURN_URI);
 		if (returnUri == null) return null;
 
 		return URI.create(returnUri);
@@ -87,7 +87,7 @@ public class ConnectionRequest {
 
 		for (Message message : this.getMessageEnvelope().getMessages()) {
 
-			message.setParameter(XDI_ADD_RETURN_URI, returnUri.toString());
+			message.setParameter(XDIMessagingConstants.XDI_ADD_MESSAGE_PARAMETER_RETURN_URI, returnUri.toString());
 		}
 	}
 
