@@ -123,6 +123,7 @@ public class ConnectionRequest {
 		URI xdiEndpointUri = xdiDiscoveryResult.getXdiEndpointUri();
 
 		PrivateKey privateKey = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUri, secretToken);
+		if (privateKey == null) throw new Xdi2ClientException("No private key for " + cloudNumber);
 
 		// sign messages
 
