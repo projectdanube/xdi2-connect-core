@@ -3,7 +3,7 @@ package xdi2.connect.core;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
-import java.security.PrivateKey;
+import java.security.interfaces.RSAPrivateKey;
 
 import xdi2.client.exceptions.Xdi2ClientException;
 import xdi2.client.util.XDIClientUtil;
@@ -122,8 +122,9 @@ public class ConnectionRequest {
 		CloudNumber cloudNumber = xdiDiscoveryResult.getCloudNumber();
 		URI xdiEndpointUri = xdiDiscoveryResult.getXdiEndpointUri();
 
-		PrivateKey privateKey = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUri, secretToken);
-		if (privateKey == null) throw new Xdi2ClientException("No private key for " + cloudNumber);
+		String privateKeyString = XDIClientUtil.retrieveSignaturePrivateKey(cloudNumber, xdiEndpointUri, secretToken);
+		if (privateKeyString == null) throw new Xdi2ClientException("No private key for " + cloudNumber);
+		RSAPrivateKey privateKey = RSAStaticPrivateKeySignatureCreator.rsaPrivateKeyFromPrivateKeyString(privateKeyString);
 
 		// sign messages
 
